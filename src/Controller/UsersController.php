@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Log\Log;
 
 /**
  * Users Controller
@@ -18,6 +19,7 @@ class UsersController extends AppController
      */
     public function index()
     {
+        
         $this->paginate = [
             'contain' => ['Roles']
         ];
@@ -25,6 +27,8 @@ class UsersController extends AppController
 
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
+        
+        Log::debug(print_r($users,true));
     }
 
     /**
@@ -109,5 +113,16 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function getuser(){
+        $this->request->allowMethod(['post']);
+        Log::debug('Debug',  print_r($this->request,true));
+//        $this->request->allowMethod(['post']);
+       // if($this->request->is('post')){
+//            $user = $this->request->data['email'];
+//        }else{
+//            throw new \Cake\Network\Exception\MethodNotAllowedException();
+//        }
     }
 }
